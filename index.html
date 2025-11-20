@@ -19,19 +19,23 @@
       text-align: center;
     }
     img {
-      width: 360px;
+      width: 360px;              /* din perfekta storlek */
       height: auto;
       cursor: pointer;
-      margin-bottom: 25px;
-      border-radius: 22px;
+      margin-bottom: 20px;       /* texten mycket närmare */
+      border-radius: 24px;
       user-select: none;
     }
     #quote {
-      font-family: 'Charter', Georgia, serif;
       font-size: 1.45rem;
-      max-width: 680px;
+      max-width: 720px;
       padding: 0 20px;
       line-height: 1.75;
+      margin-top: -20px;         /* drar upp texten ännu mer */
+      min-height: 120px;         /* fixar så stenen aldrig hoppar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
       opacity: 0;
       transition: opacity 1.8s ease;
     }
@@ -78,7 +82,7 @@
       "You believe movement is life. I am the proof of the opposite.",
       "I lay here before you learned to lie to yourselves.",
       "Your problems are new. My solutions are old as earth.",
-      "I am the only one who will never leave you.",
+      "I am the only one who will never leave excitation.",
       "You ask “Am I on the right path?” I am the path.",
       "Stop running. Sit beside me for a while. Nothing will happen — and that is the point."
     ];
@@ -91,6 +95,8 @@
       new Audio("sounds/stone5.mp3")
     ];
 
+    let audioUnlocked = false;
+
     const quoteElement = document.getElementById("quote");
 
     function newWisdom() {
@@ -102,10 +108,16 @@
       }, 400);
     }
 
+    // Ljud + unlock för alla webbläsare
     document.getElementById("stone").addEventListener("click", () => {
+      if (!audioUnlocked) {
+        const unlock = new Audio();
+        unlock.play().catch(() => {});
+        audioUnlocked = true;
+      }
       const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
       randomSound.currentTime = 0;
-      randomSound.play();
+      randomSound.play().catch(() => {});
     });
 
     newWisdom();
