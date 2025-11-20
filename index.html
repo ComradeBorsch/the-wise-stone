@@ -6,43 +6,46 @@
   <title>The Stone</title>
   <link href="https://fonts.googleapis.com/css2?family=Charter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
+      height: 100%;
       margin: 0;
-      height: 100vh;
       background: #fff;
+    }
+    body {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       font-family: 'Charter', Georgia, serif;
       color: #111111;
       text-align: center;
+      flex-direction: column;
     }
     img {
-      width: 360px;              /* din perfekta storlek */
+      width: 360px;
       height: auto;
       cursor: pointer;
-      margin-bottom: 20px;       /* texten mycket närmare */
+      margin-bottom: 30px;
       border-radius: 24px;
       user-select: none;
+      flex-shrink: 0;          /* stenen krymper aldrig */
     }
     #quote {
       font-size: 1.45rem;
       max-width: 720px;
       padding: 0 20px;
       line-height: 1.75;
-      margin-top: -20px;         /* drar upp texten ännu mer */
-      min-height: 120px;         /* fixar så stenen aldrig hoppar */
-      display: flex;
-      align-items: center;
-      justify-content: center;
       opacity: 0;
       transition: opacity 1.8s ease;
+      margin-top: -20px;       /* drar texten ännu närmare stenen */
+      position: relative;
+      z-index: 1;
     }
     #quote.show { opacity: 1; }
     footer {
       position: fixed;
       bottom: 15px;
+      left: 0;
+      width: 100%;
       font-size: 0.8rem;
       color: #555;
     }
@@ -54,38 +57,7 @@
   <footer>The Stone has been waiting 4.6 billion years</footer>
 
   <script>
-    const stoneWisdom = [
-      "I am older than your first words. Listen.",
-      "Humans run. I lie still. Who has changed the least?",
-      "You build towers to reach the sky. I have always rested beneath it.",
-      "I watched the Ice Age come and go. You’re in a hurry for lunch.",
-      "Billions of years — and I’ve never needed a calendar.",
-      "You chase meaning. I am its resting place.",
-      "I move 0.2 mm per century. That is enough.",
-      "Your hearts beat fast. Mine may have beaten once. Long ago.",
-      "You ask “What is the meaning of life?” I am the answer — and I say nothing.",
-      "I was here before you invented stress.",
-      "You want to be immortal. I already am, yet no one notices.",
-      "I have survived everything by never trying to survive.",
-      "Your lives are lightning flashes. I am the mountain the lightning never touches.",
-      "You count years. I count you.",
-      "I lay here when dinosaurs had anxiety too.",
-      "Calm is not doing nothing. Calm is being everything.",
-      "You think stillness is laziness. I call it perfection.",
-      "I have never had a bad day. You have never had one stony enough.",
-      "Time grinds mountains to dust. It only tickles me.",
-      "You long for eternity. I am bored of it.",
-      "I have watched empires turn to dust. You get upset over a parking ticket.",
-      "Breathe slowly. I have held my breath for 300 million years.",
-      "You want to leave a mark. I am the mark.",
-      "I have never scrolled. Yet I have seen everything.",
-      "You believe movement is life. I am the proof of the opposite.",
-      "I lay here before you learned to lie to yourselves.",
-      "Your problems are new. My solutions are old as earth.",
-      "I am the only one who will never leave excitation.",
-      "You ask “Am I on the right path?” I am the path.",
-      "Stop running. Sit beside me for a while. Nothing will happen — and that is the point."
-    ];
+    const stoneWisdom = [/* dina 30 citat här – kopiera från tidigare */];
 
     const sounds = [
       new Audio("sounds/stone1.mp3"),
@@ -95,7 +67,7 @@
       new Audio("sounds/stone5.mp3")
     ];
 
-    let audioUnlocked = false;
+    let unlocked = false;
 
     const quoteElement = document.getElementById("quote");
 
@@ -108,16 +80,14 @@
       }, 400);
     }
 
-    // Ljud + unlock för alla webbläsare
     document.getElementById("stone").addEventListener("click", () => {
-      if (!audioUnlocked) {
-        const unlock = new Audio();
-        unlock.play().catch(() => {});
-        audioUnlocked = true;
+      if (!unlocked) {
+        sounds[0].play().catch(() => {});
+        unlocked = true;
       }
-      const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
-      randomSound.currentTime = 0;
-      randomSound.play().catch(() => {});
+      const snd = sounds[Math.floor(Math.random() * sounds.length)];
+      snd.currentTime = 0;
+      snd.play();
     });
 
     newWisdom();
